@@ -272,7 +272,7 @@ const Navbar: React.FC = () => {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Tìm kiếm nội dung bất kỳ"
-              className="rounded-full px-4 py-2 w-[500px] border-current"
+              className="rounded-full text-bold px-4 py-2 w-[500px] border-current"
               suffix={
                 <Button
                   onClick={handleSearch}
@@ -385,28 +385,58 @@ const Navbar: React.FC = () => {
           )}
         </div>
       </nav>
-      <div className="flex justify-center space-x-8 px-4 py-3 bg-white border-b">
+      {/* <div className="flex justify-center space-x-8 px-4 py-3 bg-white border-b">
         {categories.map((category) => (
           <Dropdown
             key={category.name}
             menu={{
               items: category.subCategories?.map((sub, index) => ({
                 key: index,
-                label: sub,
-                onClick: () => {},
+                label: (
+                  <Link
+                    href={`/${category.name.toLowerCase()}/${sub.toLowerCase()}`}
+                  >
+                    <span className="text-sm text-white hover:text-blue-500 block py-2 px-4">
+                      {sub}
+                    </span>
+                  </Link>
+                ),
               })),
             }}
             trigger={["hover"]}
             placement="bottom"
-            arrow={{ pointAtCenter: true }}
-            className="dropdown-horizontal flex"
+            overlayClassName="custom-dropdown"
           >
             <Link href={`/${category.name.toLowerCase()}`}>
-              <div className="text-sm font-semibold hover:text-blue-500 transition-colors">
+              <span className="text-sm font-semibold text-gray-700 hover:text-blue-500 transition-colors cursor-pointer">
                 {category.name}
-              </div>
+              </span>
             </Link>
           </Dropdown>
+        ))}
+      </div> */}
+      <div className="relative flex justify-between px-4 py-3 bg-white border-b">
+        {categories.map((category) => (
+          <div key={category.name} className="group">
+            <Link href={`/${category.name.toLowerCase()}`}>
+              <span className="text-sm font-semibold text-gray-700 hover:text-blue-500 transition-colors cursor-pointer">
+                {category.name}
+              </span>
+            </Link>
+            <div className="absolute left-0 right-0 top-full w-full bg-black text-white py-2 hidden group-hover:block z-50">
+              <ul className="flex justify-between px-4 max-w-screen-xl mx-auto">
+                {category.subCategories?.map((sub, index) => (
+                  <li key={index} className="px-2">
+                    <Link
+                      href={`/${category.name.toLowerCase()}/${sub.toLowerCase()}`}
+                    >
+                      <span className="text-sm hover:text-blue-500">{sub}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         ))}
       </div>
     </header>
